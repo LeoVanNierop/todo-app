@@ -1,6 +1,31 @@
 <!doctype html>
 <html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="/static/todo_list/js/todo_list.js"></script>
+    </head>
     <body>
-        this is the todo list for {{ user.username }} <a href={% url "todo_list:logoutin" %}>logout</a>
+        <p>This is the todo app for {{ user.username }} <a href={% url "todo_list:logoutin" %}>logout</a></p>
+        
+        <p>Available lists:</p>
+        
+        <ul>
+        {% for list in lists %}
+            <li>{{ list.listname }}</li>
+        {% endfor %}
+        </ul>
+        
+        Add new list:
+        <form id="addlistform" action="{{ AddListAction }}" method="POST">
+            {% csrf_token %}
+            
+                {{ AddListForm}}
+            
+            <input type="submit" value="Add"/>
+        </form>
+        
+        
+        
+        
     </body>
 </html>

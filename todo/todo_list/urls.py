@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^index/$', 'todo_list.views.index' , name='index'),
     url('^', include('django.contrib.auth.urls')),
     url(r'^register/$', todo_list.views.RegisterUserView.as_view(), name='register'),
+    url(r'^addlist/$', 'todo_list.views.addlist', name='addlist'),
 )

@@ -4,9 +4,10 @@ from django.contrib.auth.models import User
 
 class List(models.Model):
     user = models.ForeignKey(User) 
+    listname = models.CharField(max_length=200, default='To do')
     
     def __unicode__(self):
-        return "ToDo list for: " + self.user.username
+        return listname + " list for: " + self.user.username
 
 class Task(models.Model):
     list = models.ForeignKey(List)
