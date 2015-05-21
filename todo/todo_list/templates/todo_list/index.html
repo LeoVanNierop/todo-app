@@ -9,11 +9,11 @@
         
         <p>Available lists:</p>
         
-        <ul>
+        
         {% for list in lists %}
-            <li>{{ list.listname }}</li>
+        <p><button name={{ GetListAction}} onclick="loadList('{{ list.listname }}')">Show</button> {{ list.listname }}</p>
         {% endfor %}
-        </ul>
+        
         
         Add new list:
         <form id="addlistform" action="{{ AddListAction }}" method="POST">
@@ -23,7 +23,9 @@
             
             <input type="submit" value="Add"/>
         </form>
+        <div id="ActiveList">
         
+        </div>
         
         
         
