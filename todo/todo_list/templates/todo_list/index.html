@@ -3,6 +3,9 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="/static/todo_list/js/todo_list.js"></script>
+        <style>
+            .formdiv {border: 1px solid black; padding: 4px; margin: 10px}
+        </style>
     </head>
     <body>
         <p>This is the todo app for {{ user.username }} <a href={% url "todo_list:logoutin" %}>logout</a></p>
@@ -11,20 +14,32 @@
         
         
         {% for list in lists %}
-        <p><button name={{ GetListAction}} onclick="loadList('{{ list.listname }}')">Show</button> {{ list.listname }}</p>
+        <p> 
+            <button onclick="loadList('{{ list.listname }}')">Show</button>
+            <button onclick="removeList('{{ list.listname }}')">Delete</button> 
+            {{ list.listname }}
+        </p>
         {% endfor %}
         
         
-        Add new list:
-        <form id="addlistform" action="{{ AddListAction }}" method="POST">
-            {% csrf_token %}
-            
-                {{ AddListForm}}
-            
-            <input type="submit" value="Add"/>
-        </form>
+        <p>Add new list:</p>
+        <div class="formdiv">
+            <form id="addlistform" action="{{ AddListAction }}" method="POST">
+                {% csrf_token %}         
+                {{ AddListForm}}           
+                <input type="submit" value="Add list"/>
+            </form>
+        </div>
+        <p>Add new task:</p>
+        <div class="formdiv">
+            <form id="addtaskform" action="{{ AddTaskAction }}" method="POST">
+                {% csrf_token %}
+                {{ AddTaskForm.as_p }}
+                <input type="submit" value="Add task"/>
+            </form>
+        </div>
         <div id="ActiveList">
-        
+            
         </div>
         
         

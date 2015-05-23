@@ -7,12 +7,12 @@ class List(models.Model):
     listname = models.CharField(max_length=200, default='To do')
     
     def __unicode__(self):
-        return listname + " list for: " + self.user.username
+        return self.listname
 
 class Task(models.Model):
     list = models.ForeignKey(List)
     task_description = models.CharField(max_length=200)
-    deadline = models.DateTimeField(blank=True)
+    deadline = models.DateTimeField(null=True, blank=True)
     finished = models.BooleanField(default=False)
     
     class Meta:
