@@ -3,46 +3,48 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="/static/todo_list/js/todo_list.js"></script>
-        <style>
-            .formdiv {border: 1px solid black; padding: 4px; margin: 10px}
-        </style>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/todo_list/css/todo.css">
     </head>
     <body>
-        <p>This is the todo app for {{ user.username }} <a href={% url "todo_list:logoutin" %}>logout</a></p>
-        
-        <p>Available lists:</p>
-        
-        
-        {% for list in lists %}
-        <p> 
-            <button onclick="loadList('{{ list.listname }}')">Show</button>
-            <button onclick="removeList('{{ list.listname }}')">Delete</button> 
-            {{ list.listname }}
-        </p>
-        {% endfor %}
-        
-        
-        <p>Add new list:</p>
-        <div class="formdiv">
-            <form id="addlistform" action="{{ AddListAction }}" method="POST">
-                {% csrf_token %}         
-                {{ AddListForm}}           
-                <input type="submit" value="Add list"/>
-            </form>
-        </div>
-        <p>Add new task:</p>
-        <div class="formdiv">
-            <form id="addtaskform" action="{{ AddTaskAction }}" method="POST">
-                {% csrf_token %}
-                {{ AddTaskForm.as_p }}
-                <input type="submit" value="Add task"/>
-            </form>
-        </div>
-        <div id="ActiveList">
-            
-        </div>
-        
-        
-        
+        <div class="container">
+            <div class="row">
+            <div class="span12">
+                <h1>This is the todo app for {{ user.username }} <a href={% url "todo_list:logoutin" %}>logout</a></h1>
+                
+                <h3>Available lists:</h3>
+                
+                
+                {% for list in lists %}
+                <p> 
+                    <button onclick="loadList('{{ list.listname }}')">Show</button>
+                    <button onclick="removeList('{{ list.listname }}')">Delete</button> 
+                    {{ list.listname }}
+                </p>
+                {% endfor %}
+                
+                
+                <h4>Add new list:</h4>
+                <div class="formdiv">
+                    <form id="addlistform" action="{{ AddListAction }}" method="POST">
+                        {% csrf_token %}         
+                        {{ AddListForm}}           
+                        <input type="submit" value="Add list"/>
+                    </form>
+                </div>
+                <h4>Add new task:</h4>
+                <div class="formdiv">
+                    <form id="addtaskform" action="{{ AddTaskAction }}" method="POST">
+                        {% csrf_token %}
+                        {{ AddTaskForm.as_p }}
+                        <input type="submit" value="Add task"/>
+                    </form>
+                </div>
+                <div id="ActiveList">
+                    
+                </div>
+            </div>
+            </div>
+        </div>    
     </body>
 </html>
