@@ -31,6 +31,14 @@ $(document).ready( function(){
 		var selects = this.getElementsByTagName("select");
 		for(var i=0;i<inputs.length-1;i++){
 			formData[inputs[i].name] = inputs[i].value;
+			if(inputs[i].name === 'finished'){
+				if(inputs[i].checked){
+					formData[inputs[i].name] = true;
+				}
+				else{
+					formData[inputs[i].name] = false;
+				}
+			}
 		}
 		for(var i=0;i<selects.length;i++){
 			formData[selects[i].name] = selects[i].value;
@@ -40,7 +48,6 @@ $(document).ready( function(){
 			url: this.action,
 			data: formData
 		};
-		
 		$.ajax(ajaxoptions).success(function(response){
 			loadList(activeListName)			
 		}); 
@@ -54,10 +61,11 @@ var loadList = function(name){
 		return
 	}
 	activeListName = name;
+	sessionStorage.setItem('active', activeListName);
 	$("#ActiveList").empty().append(document.createElement('p').appendChild(
 		document.createTextNode("list: " + name) 
 	))
-	var checkbox, paragraph, text;	
+	var checkbox, paragraph, text, button;	
 	var data = {
 		listname: name,
 	};
@@ -70,6 +78,10 @@ var loadList = function(name){
 	$.ajax(ajaxoptions).done(function(response){;
 		if(response[0].results !== "Nothing"){
 			for(var i=0; i<response.length; i++){
+				button = document.createElement('input');
+				button.type = "button";				
+				button.onclick = removeTask(response[i].id);
+				button.value = "delete"
 				checkbox = document.createElement('input');
 				checkbox.type="checkbox";
 				checkbox.name = response[i].id;
@@ -87,6 +99,7 @@ var loadList = function(name){
 				text = document.createTextNode(response[i].deadline + " task description:" + response[i].description);
 				
 				paragraph = document.createElement('p');
+				paragraph.appendChild(button);
 				paragraph.appendChild(checkbox)
 				paragraph.appendChild(text);
 				$("#ActiveList").append(paragraph);
@@ -106,7 +119,26 @@ var removeList = function(name){
 		url: '../removelist/',
 		data: data,
 	}
+	$.ajax(ajaxoptions).success(function(response){
+			reloadPage()			
+	});
+}
 
+var removeTask = function(id){
+	return function(){
+		var data = {
+			id: id,
+		}
+		data[token.name] = token.value
+		var ajaxoptions = {
+			type: 'POST',
+			url: '../removetask/',
+			data: data,
+		}
+		$.ajax(ajaxoptions).success(function(response){
+			reloadPage();
+		});
+	}
 }
 
 var toggleDone = function(){
@@ -124,9 +156,14 @@ var toggleDone = function(){
 };
 
 var reloadPage= function(){
+	sessionStorage.setItem('active', activeListName);
 	window.location.reload();
 }
 
+window.onload = function(){
+	activeListName = sessionStorage.getItem('active');
+	loadList(activeListName)
+}
 
 
 

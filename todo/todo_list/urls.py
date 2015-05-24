@@ -15,4 +15,5 @@ urlpatterns = patterns('',
     url(r'^toggledone/$', 'todo_list.views.toggledone', name='toggledone'),
     url(r'^getlist/$', 'todo_list.views.getlist', name='getlist'),
     url(r'^removelist/$', 'todo_list.views.removelist', name='removelist'),
+    url(r'^removetask/$', 'todo_list.views.removetask', name='removetask'),
 )

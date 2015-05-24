@@ -72,12 +72,39 @@ def toggledone(request):
 
 @require_POST
 def removelist(request):
-    pass
+    if request.user.is_authenticated():
+        listname = request.POST.get("listname", None)
+        if listname is not None:
+            list = request.user.list_set.filter(listname=listname).get()
+            if not list:
+                return HttpResponse("list name not found", status=400)
+            list.delete()            
+            return HttpResponse(json.dumps([]))                 
+                     
+        else:
+            return HttpResponse("list name not specified correctly", status=400)
+    else:
+        return HttpResponse("Url is only available to logged in users", status=401)
 
 @require_POST
-def removelist(request):
-    pass
-        
+def removetask(request):
+    if request.user.is_authenticated():
+        id = request.POST.get('id', None)
+        task = None
+        if id is not None:
+            task = Task.objects.get(pk=id)
+        if task:
+            if request.user == task.list.user:
+                task.delete()
+                return HttpResponse(json.dumps([]))
+            else:
+                return HttpResponse("No permission to edit this task", status=403)
+        else:
+            return HttpResponse("Task not found", status=404)
+    else:
+        return HttpResponse("Url is only available to logged in users", status=401)
+
+            
 @require_POST       
 def getlist(request):
     if request.user.is_authenticated():

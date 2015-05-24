@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django import forms
 from models import Task
+from django.forms.extras.widgets import SelectDateWidget
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -14,3 +15,6 @@ class AddTaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = '__all__'
+        widgets = {
+            'deadline': SelectDateWidget,
+        }
