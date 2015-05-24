@@ -10,4 +10,4 @@ Using the project inside your website:
 I have not spend time yet making this into a proper python module with easy deployment. However, this should work for now:
 1) copy todo_list directory completely into your project (top level)
 2) add to your entry point urls.py: url(r'^todo_list/', include('todo_list.urls', namespace='todo_list'))
-3) link to the app with <a href="{% url 'todo_list:index' %}">link</a>
+3) link to the app with  href="{% url 'todo_list:index' %}"
