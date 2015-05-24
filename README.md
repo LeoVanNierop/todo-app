@@ -14,4 +14,6 @@ I have not spend time yet making this into a proper python module with easy depl
 
 2) add to your entry point urls.py: url(r'^todo_list/', include('todo_list.urls', namespace='todo_list'))
 
-3) link to the app with  href="{% url 'todo_list:index' %}"
+3) update your database: python manage.py migrate
+
+4) link to the app with  href="{% url 'todo_list:index' %}"
